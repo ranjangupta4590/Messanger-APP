@@ -30,6 +30,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [isOnline, setIsOnline] = useState(true); 
   const toast = useToast();
 
   const defaultOptions = {
@@ -125,9 +126,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
+    socket.on('userStatusChange', (status) => setIsOnline(status));
 
     // eslint-disable-next-line
-  }, []);
+    return () => {
+      socket.off('userStatusChange');
+    };
+  }, [socket]);
 
   useEffect(() => {
     fetchMessages();
@@ -236,11 +241,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 </>
               ) : (
                 <>
-                  {selectedChat.chatName.toUpperCase()}
+                  {selectedChat.chatName.toUpperCase() && isOnline ? 'Online' : 'Offline'}
                   <UpdateGroupChatModal
                     fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
                     setFetchAgain={setFetchAgain}
+                    
                   />
                 </>
               ))}
