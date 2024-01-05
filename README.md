@@ -19,7 +19,7 @@ Welcome to the Messenger App, a real-time chat application built using the MERN 
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/ranjangupta4590/Messanger-APP/.git
+   git clone https://github.com/ranjangupta4590/Messanger-APP.git
    ```
 
 2. # Go to the project directory
